@@ -14,6 +14,7 @@ ARCHITECTURE behavior OF iic_scl_gen_tst IS
     PORT(
          clk : IN  std_logic;
          ce : IN  std_logic;
+         mode : in std_logic;
          scl_pd : OUT  std_logic;
          rst : IN  std_logic
         );
@@ -23,6 +24,7 @@ ARCHITECTURE behavior OF iic_scl_gen_tst IS
    --Inputs
    signal clk : std_logic := '0';
    signal ce : std_logic := '0';
+   signal mode : std_logic := '0';
    signal rst : std_logic := '0';
 
  	--Outputs
@@ -37,6 +39,7 @@ BEGIN
    uut: iic_scl_gen PORT MAP (
           clk => clk,
           ce => ce,
+          mode => mode,
           scl_pd => scl_pd,
           rst => rst
         );
@@ -56,6 +59,7 @@ BEGIN
    begin		
       rst <= '1';
       ce <= '0';
+      mode <= '0';
       wait for 25 ns;	
       rst <= '0';
       
@@ -63,6 +67,17 @@ BEGIN
       ce <= '1';
       wait for 15 us;
       ce <= '0';
+      wait for clk_period;
+      ce <= '1';
+      wait for 15 us;
+      ce <= '0';
+      
+      wait for clk_period;
+      mode <= '1';
+      ce <= '1';
+      wait for 15 us;
+      ce <= '0';
+      
       wait for clk_period;
       ce <= '1';
       wait for 15 us;
