@@ -18,8 +18,8 @@ end iic_scl_gen;
 
 architecture rtl of iic_scl_gen is
 
-    signal ct_reg : std_logic_vector(5 downto 0);
-    signal lh_reg : std_logic_vector(9 downto 0);
+    signal ct_reg : std_logic_vector(7 downto 0);
+    signal lh_reg : std_logic_vector(7 downto 0);
     signal scl_pd_int : std_logic;
     signal n : std_logic;
     signal q : std_logic;
@@ -32,7 +32,7 @@ begin
     process(ce, clk)
     begin
         if (ce = '0') then
-            ct_reg <= "000001";
+            ct_reg <= x"01";
         elsif (rising_edge(clk)) then
             ct_reg <= ct_reg(ct_reg'left - 1 downto 0) & ct_reg(ct_reg'left);
         end if;
@@ -43,7 +43,7 @@ begin
     begin
         case mode is
             when '0' =>
-                n <= (not scl_pd_int and q and lh_reg(3)) or (lh_reg(9) and q);                
+                n <= (not scl_pd_int and q and lh_reg(2)) or (lh_reg(7) and q);                
             when '1' =>
                 n <= (not scl_pd_int and q) or (lh_reg(1) and q);
             when others =>
