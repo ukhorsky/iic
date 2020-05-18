@@ -1,10 +1,8 @@
 ----------------------------------------------------------------------------------
--- SCL signal generator for IIC master. A very simole Moore machine :)
+-- SCL signal generator for IIC master. A very simple Moore machine :)
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.std_logic_arith.all;
-use IEEE.std_logic_unsigned.all;
 
 entity iic_scl_gen is
     port(
@@ -29,6 +27,7 @@ begin
     scl_pd <= scl_pd_int;    
     q <= ct_reg(ct_reg'left);    
     
+    --clock taps countert
     process(ce, clk)
     begin
         if (ce = '0') then
@@ -51,6 +50,7 @@ begin
         end case;
     end process;
 
+    -- scl time units counter
     process(rst, clk)
     begin
         if (rst = '1') then
